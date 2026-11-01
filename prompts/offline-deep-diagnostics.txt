@@ -1,0 +1,412 @@
+You are modifying an existing QaaS developer-assistance plugin inside a fully air-gapped environment.
+
+Inspect the actual plugin, implement the improvements below, and verify them using locally available tools. Do not stop at recommendations, a plan, or skill instructions alone.
+
+Keep the implementation independent of any particular language model, model provider, or model-specific prompting feature.
+
+## 1. Environment and constraints
+
+Available:
+- The existing adapted plugin and its current skills.
+- Local QaaS documentation.
+- QaaS.Framework.*, QaaS.Runner.*, and QaaS.Common.* NuGet packages.
+- Developers’ test projects.
+- Local test execution artifacts.
+- Already installed runtimes and tools.
+
+Unavailable:
+- Internet access.
+- QaaS source repositories.
+- Public package feeds, documentation services, symbol servers, or APIs.
+- Additional dependencies, tools, models, schemas, or catalogs unless inspection proves they already exist locally.
+
+Never:
+- Attempt an internet connection.
+- Clone or fetch repositories.
+- Download or install dependencies, tools, symbols, source, or models.
+- Follow Source Link URLs.
+- Introduce a public-service fallback.
+- Execute tests or access infrastructure merely because diagnosis was requested.
+
+Use local files and already available tooling. Preserve the plugin’s existing authorization and execution policies.
+
+The user has imported the latest QaaS packages into this environment. Nevertheless, inspect exact installed versions and capabilities rather than assuming that every project uses the same packages.
+
+## 2. Objective
+
+Enable existing skills to investigate QaaS configuration, compilation, execution, and assertion failures deeply using:
+
+- Exact installed API contracts.
+- Local documentation.
+- Original implementation source embedded in distributed assemblies, where available.
+- Locally available decompilation as an optional fallback.
+- Structured runtime evidence.
+
+Implement executable helpers and integrate them into the existing skills and coordinator.
+
+A separate debugging command may remain available, but developers must not need to invoke it to get these capabilities from another skill.
+
+## 3. Inspect before changing
+
+Read applicable repository instructions.
+
+Identify:
+- Plugin manifests and host integration.
+- Tool registration and capability discovery.
+- Coordinator and specialist routing.
+- Existing configuration/YAML, C#, hook, implementation, run, verification,
+  upgrade, onboarding, doctor, and diagnosis skills.
+- Documentation retrieval.
+- Package inventory.
+- Evidence collection/import.
+- Runtime tool allowlists and safety hooks.
+- Execution restrictions.
+- Context management, caching, tests, and packaging.
+
+Use actual component names and reuse existing functionality.
+
+Produce a concise implementation map:
+existing component → required change → affected files → offline verification.
+
+Then implement within the available authorization. Ask only for information that cannot be established locally and materially blocks implementation.
+
+## 4. Integrate one shared diagnostic workflow
+
+Create a reusable diagnostic service/tool layer and a compact shared workflow contract.
+
+Integrate it through the existing coordinator and relevant existing skills. Do not copy a large debugging prompt into every skill.
+
+Activate the shared path for:
+- Explicit debugging questions.
+- Invalid YAML or configuration.
+- Missing or ambiguous hooks.
+- Compilation and API/version mismatches.
+- Failed or unexpected test executions.
+- Assertion failures or errors.
+- Missing results.
+- Timeouts.
+- Contradictory documentation, package, or runtime evidence.
+
+Carry the current task, evidence, and established project facts into diagnosis. Do not require a separate debug command or repeat onboarding unnecessarily.
+
+Do not trigger expensive diagnostic inspection for ordinary successful tasks.
+
+Shared procedure:
+1. Establish the exact project, execution, package set, and available capabilities.
+2. Collect existing evidence before requesting another execution.
+3. Identify the first relevant observed failure and its exception chain.
+4. Compare intended configuration with available runtime configuration evidence.
+5. Inspect matching installed API contracts, implementation, and local documentation.
+6. Separate observed facts from hypotheses.
+7. Identify plausible alternative explanations.
+8. Choose the smallest check that distinguishes those explanations.
+9. Use authorized fresh evidence to confirm or reject the hypothesis.
+10. Return the diagnosis and bounded repair scope to the originating skill.
+
+Classify causes as:
+- Test logic.
+- Configuration.
+- Custom hook.
+- QaaS framework.
+- Tested system.
+- Environment/deployment.
+- Tooling/dependencies.
+- Unknown.
+
+A QaaS stack frame does not prove a framework defect. A failed assertion does not prove the assertion is wrong. A zero process exit does not prove the intended test outcome.
+
+## 5. Implement package and API inspection
+
+Create or extend local helpers that inspect:
+- .nupkg archives.
+- Extracted package directories.
+- Project declarations and lock files.
+- project.assets.json.
+- Application output assemblies.
+- Runtime assembly evidence, when available.
+
+Collect:
+- Package IDs, versions, target frameworks, and dependencies.
+- Assembly identities, references, and content hashes.
+- Public types, base types, interfaces, constructors, methods, overloads,
+  generic constraints, properties, and relevant attributes.
+- Included XML API documentation.
+- Embedded symbols/source availability.
+
+Distinguish:
+- Declared dependencies.
+- Resolved dependencies.
+- Assemblies present in output.
+- Assemblies proven to have been loaded.
+
+Do not claim that a project reference proves which assembly executed.
+
+Use metadata-only inspection. Do not instantiate QaaS types, invoke methods,
+or run attribute constructors.
+
+Prefer APIs available in the installed runtime, such as PEReader and
+System.Reflection.Metadata when present. Do not add an unavailable dependency.
+
+Expose bounded operations equivalent to:
+- list_packages
+- find_type
+- get_type_contract
+- get_method_contract
+- get_package_dependencies
+- inspect_debug_information
+
+Return explicit status, identity, provenance, content hash, unresolved
+references, limitations, and truncation/pagination information.
+
+Update C# and hook-writing skills to verify relevant installed contracts before generating code.
+
+## 6. Implement package implementation lookup
+
+Use this source preference:
+1. Original source embedded in the selected assembly’s portable PDB.
+2. Matching local symbols/source already available.
+3. Decompilation only when a suitable tool is already installed.
+
+Never download symbols or source.
+
+Validate symbol identity and available document checksums. Handle compressed
+embedded source correctly, bound decompression, and prevent embedded paths
+from escaping controlled storage.
+
+Expose an operation equivalent to:
+
+get_method_source(assembly_identity, type_name, method_selector)
+
+Resolve overloads accurately using complete signatures or metadata tokens.
+
+Return:
+- Assembly identity and hash.
+- Method identity.
+- sourceKind: embedded-original, local-original, decompiled, or unavailable.
+- Relevant source excerpt.
+- Provenance.
+- Limitations.
+
+Do not present reconstructed code as original source.
+
+If exact method extraction is unavailable, return a bounded document excerpt
+and disclose that limitation.
+
+Inspect the method implicated by evidence and only the necessary surrounding
+calls. Do not load entire assemblies into context.
+
+Permit read-only inspection of implementation already distributed inside
+packages. Keep modification of the QaaS platform outside this plugin workflow.
+
+Missing decompilation must not disable metadata inspection or ordinary diagnosis.
+
+## 7. Use the installed QaaS diagnostic capabilities
+
+Verify these capabilities against local packages, help, documentation, and
+sample output before relying on them.
+
+Framework capabilities:
+- LoggerOptions.JsonLogs corresponds to --json-logs.
+- The flag formats default console events as newline-delimited Serilog JSON.
+- Explicit --logger-configuration-file configuration takes precedence.
+- Text logging remains the default.
+- JSON events can contain Timestamp, Level, MessageTemplate, RenderedMessage,
+  Properties, and Exception.
+- Exception may be formatted text rather than a structured exception object.
+- --json-logs does not enable network logging.
+- --disable-elastic-defaults disables registered Elastic defaults; explicitly
+  enabling --send-logs can still enable shipping.
+- Logging flags do not disable network operations performed by tests.
+- SDK packages can include XML API documentation.
+- Assemblies can contain embedded portable PDBs and original source.
+
+Runner capabilities:
+- Event ID 4102, ConfigurationRejected, Warning:
+  configuration rejection during a runner lifecycle phase.
+- Event ID 4101, PhaseFailed, Error:
+  another exception during a runner lifecycle phase.
+- Lifecycle events include Phase and exception evidence.
+- Phase values are human-readable text; do not assume enum identifiers.
+- The normal Microsoft-to-Serilog bridge represents EventId under Properties,
+  commonly with Id and Name fields.
+- Assertion completion is a Debug event with:
+  DiagnosticCode = QAAS_ASSERTION_COMPLETED
+  AssertionName
+  AssertionType
+  AssertionStatus
+- AssertionStatus is a named status, not a process exit code.
+- YAML parser/load wrappers preserve original inner exceptions.
+- Friendly outer configuration exceptions may intentionally hide their stack.
+
+These events do not necessarily cover every bootstrap or configuration failure.
+Missing Debug events do not prove an assertion never executed.
+
+Support older packages and custom formatters through text-log/report fallbacks.
+
+## 8. Implement structured evidence collection
+
+Collection must read existing artifacts without implicitly executing anything.
+
+Collect where available:
+- Run identity and timestamps.
+- Command identity and working directory.
+- SDK/runtime information.
+- Package and assembly identities.
+- Exit status.
+- Nested and aggregate exception chains.
+- Stack frames.
+- Relevant configuration and validation errors.
+- Relevant logs.
+- Assertion results and report references.
+- Emitted session/stage/action/correlation identifiers.
+- Artifact paths and hashes.
+- Missing-evidence and truncation indicators.
+
+Do not invent fields that were not emitted.
+
+Parse JSONL and mixed/plain text. Build output, CLI output, and third-party
+messages may appear between JSON events.
+
+Preserve unknown events and their provenance.
+
+Prioritize exception chains and first-failure evidence over repetitive messages.
+Do not summarize using only the last few log lines.
+
+Correlate by explicit identifiers where available. Timestamp proximity alone is
+not proof of causation.
+
+Respect existing retention/security rules. Sanitize secrets before evidence
+enters model context or persistent memory. Do not automatically dump fully
+expanded configuration, raw payloads, or entire reports.
+
+Provide bounded follow-up retrieval of artifact slices so truncation does not
+permanently hide relevant evidence.
+
+Every diagnosis should return:
+- Observed failure.
+- Supporting evidence references.
+- Likely cause and confidence rationale.
+- Plausible alternatives.
+- Missing discriminating evidence.
+- Smallest next check.
+- Repair scope, if established.
+
+## 9. Implement local documentation retrieval
+
+Support the actual local documentation format.
+
+- Configure an explicit filesystem documentation root.
+- Reuse a local search index if available.
+- Otherwise implement dependency-free lexical search.
+- Search headings, type names, methods, configuration keys, hooks, and exception text.
+- Return bounded sections with stable paths/headings.
+- Preserve documented version applicability.
+- Label applicability as unknown when documentation is unversioned.
+- Remove public fallbacks from the offline distribution.
+
+Do not require embeddings, a vector database, another model, a new service,
+or separately supplied schemas/catalogs.
+
+Use:
+- Documentation for intended behavior.
+- Metadata for exact API shape.
+- Source for implementation details.
+- Runtime evidence for observed behavior.
+
+Report conflicts between these sources.
+
+## 10. Keep operation model-agnostic and efficient
+
+- Do not hard-code a model name, provider, tokenizer, reasoning setting,
+  context-window size, or proprietary orchestration feature.
+- Detect host capabilities and configure limits independently of the model.
+- Use simple tool schemas and validated structured outputs.
+- Keep one active workflow phase and load only relevant specialist instructions.
+- Make delegation optional.
+- Cache package inspection by content hash.
+- Cache documentation results by source identity/content.
+- Invalidate stale caches when inputs change.
+- Move parsing, hashing, filtering, dependency inspection, and validation into code.
+- Expose bounds, pagination, and truncation explicitly.
+- Measure actual token usage only where the host supports it; label estimates.
+
+Register new read-only tools in the actual host manifest and capability
+registry. Update applicable tool allowlists, runtime safety-hook classifiers,
+and resume/state handling.
+
+Do not instruct a skill to use a tool that host policy still blocks.
+
+## 11. Preserve execution boundaries
+
+Inspect and preserve the existing execution policy.
+
+If automatic execution is disabled:
+- Keep it disabled.
+- Provide exact reviewed manual command handoffs.
+- Improve evidence collection/import.
+- Do not enable an unimplemented runner by changing a boolean.
+
+When supported and appropriate, propose diagnostic flags through the existing
+execution approval flow:
+
+--json-logs --logger-level Debug --disable-elastic-defaults
+
+Respect explicit logger configuration, installed capabilities, and test effects.
+
+New execution, process attachment, infrastructure access, or mutation must
+follow existing authorization.
+
+## 12. Offline verification
+
+Use only installed tooling, synthetic fixtures, and existing local packages.
+
+Test:
+- Package identities, contracts, overloads, and missing references.
+- Declared/resolved/loaded assembly distinctions.
+- Embedded source present/absent.
+- Symbol mismatch.
+- Corrupt archives and decompression bounds.
+- Path traversal prevention.
+- Unavailable decompiler.
+- Local documentation search and version uncertainty.
+- Cache invalidation.
+- JSONL, mixed text, and custom formatting.
+- Nested/aggregate exceptions.
+- Lifecycle event IDs and assertion fields.
+- Missing/truncated evidence.
+- Secret redaction.
+- Older-package fallbacks.
+- No public-network fallback.
+- Existing skills entering the shared diagnostic path without requiring a
+  separate command.
+- Successful tasks retaining their normal lightweight path.
+
+Add end-to-end evaluation fixtures for:
+- Invalid YAML.
+- Missing hook discovery.
+- API/version mismatch.
+- Assertion failure following an earlier transport error.
+- An apparent framework failure requiring implementation inspection.
+
+Specify expected evidence and acceptable conclusions.
+
+Separate automated helper tests from evaluations run through the deployed
+model/host. Do not claim improved diagnostic quality without measurement.
+
+## 13. Deliverables
+
+Implement and return:
+1. Changed files grouped by capability.
+2. Plugin instruction/routing changes and executable code changes.
+3. Exact offline setup and usage.
+4. Tests executed and results.
+5. Optional capabilities unavailable locally.
+6. Remaining limitations.
+7. An end-to-end example starting in an existing skill, following evidence into
+   the matching installed QaaS implementation, and returning a supported
+   diagnosis to the originating skill.
+
+Package required helpers with the plugin where supported. Development-time
+build outputs are not proof that helpers ship to users.
+
+Do not claim unexecuted builds, tests, packaging, or evaluations succeeded.
